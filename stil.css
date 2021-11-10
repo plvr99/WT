@@ -1,0 +1,188 @@
+body{
+	background-color: cornflowerblue;
+}
+#okvir {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+html, body {
+	margin: 0;
+	height: 100%
+}
+h2 {
+	margin: 0;
+}
+
+#meni {
+	box-sizing: border-box;
+	border: 1px solid black;
+	margin: 0;
+	height: 35%
+}
+
+#meni_list li {
+	display: block;
+	align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#meni_list ul {
+	margin: 0;
+	padding: 0;
+}
+
+#meni_list{
+  height: 30%;
+}
+
+#meni_content {
+	height: 70%;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	margin: 0;
+}
+
+#studenti {
+	box-sizing: border-box;
+	border: 1px solid black;
+	border-bottom-style: none;
+	margin: 0;
+	height: 45%;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	float: left;
+	width: 100%;
+}
+
+#grupe {
+	box-sizing: border-box;
+	border: 1px solid black;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	float: right;
+	height: 30%;
+	width: 100%;
+}
+
+#tabela{
+	justify-self: center;
+	border: 1px solid black;
+    margin: 0 auto;
+    height: fit-content;
+    margin-top: 10%;
+    width: 80%
+}
+#tabela, tr, th, td {
+	border: 1px solid black;
+    
+}
+#tabela td:nth-child(n+2), th:nth-child(n+2){
+	display: none;
+}	
+
+#student_list{
+	height: inherit;
+	width: 80%;
+}
+#student_list ul{
+	border: 1px solid black;
+	width: 100%;
+   /* height: 100%;*/
+    padding: 20px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, 30%);
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px; 
+}
+#student_list li{
+	border: 1px solid black;
+	display: inline;
+	width: fit-content; 
+	padding: 5px;
+}
+
+@media screen and (min-width: 500px) {
+    #meni_list li {
+	  display:inline;
+	  padding-left: 15px;
+	}
+	#studenti {
+		box-sizing: border-box;
+		border: 1px solid black;
+		margin: 0;
+		display: flex;
+	    align-items: center;
+	    justify-content: center;
+		width: 100%;
+		height: 45%;
+	}
+
+	#grupe {
+		box-sizing: border-box;
+		border: 1px solid black;
+		display: flex;
+	    align-items: center;
+	    justify-content: center;
+		height: 45%;
+		width: 100%;
+	}
+
+	#meni {
+		box-sizing: border-box;
+		border: 1px solid black;
+		margin: 0;
+		height: 10%
+	}  
+	#tabela td:nth-child(n+2), th:nth-child(n+2){
+		display: table-cell;
+	}
+}
+
+@media screen and (min-width: 800px) {
+	
+    #meni_list li {
+	  display:inline;
+	  padding-left: 15px;
+	}
+	#studenti {
+		box-sizing: border-box;
+		border: 1px solid black;
+		margin: 0;
+		height: 85%;
+		display: flex;
+	    align-items: center;
+	    justify-content: center;
+		float: left;
+		width: 60%;
+	}
+
+	#grupe {
+		box-sizing: border-box;
+		border: 1px solid black;
+		display: flex;
+	    align-items: center;
+	    justify-content: center;
+		float: right;
+		height: 85%;
+		width: 40%;
+	}
+
+	#meni {
+		box-sizing: border-box;
+		border: 1px solid black;
+		margin: 0;
+		height: 15%
+	} 
+	#tabela td:nth-child(n+2), th:nth-child(n+2){
+		display: table-cell;
+	}
+}
