@@ -1,0 +1,81 @@
+@objects
+	body body
+    div div
+    form1 #form1
+    form2 #form2
+	odabirVjezbe #odabirVjezbe
+    odabirZadatka #odabirZadatka
+    odabirVerzije #odabirVerzije
+    dugme1 #dugme1
+    dugme2 #dugme2
+    errorsLog #errorsLog
+    greska #greska
+
+
+= Width section =
+	div:
+		width 98 to 100 % of body/width
+	form1:
+		width 48 to 51 % of body/width
+	
+
+= Height section =
+
+= Inside section =
+	form1:
+		inside div
+	odabirVjezbe:
+        inside form1
+    odabirZadatka:
+        inside form1
+    odabirVerzije:
+        inside form1
+
+    errorsLog:
+        inside form2
+    greska:
+        inside form2
+    dugme1:
+        inside form1
+
+
+= Left of section =
+	form1:
+        left-of form2
+
+= Right of section =
+	form2:
+        right-of form1
+
+= Above section =
+	odabirVjezbe:
+        above odabirZadatka
+    odabirZadatka:
+        above odabirVerzije
+
+= Below section =
+	odabirZadatka:
+        below odabirVjezbe
+= Visible section =
+	form1:
+        visible
+    form2:
+        visible
+	odabirVjezbe:
+        visible
+    odabirZadatka:
+        visible
+    odabirVerzije:
+        visible
+    errorsLog:
+        visible
+    greska:
+        visible
+    dugme1:
+        visible
+    dugme2: 
+        visible
+    
+
+= Inside partly section =
+	

@@ -4,10 +4,15 @@ div{
     align-items: center;
     border: 2px solid rgb(25, 44, 146);
     flex-direction: row;
+    margin-top: 10%;
 }
 form{
     width: 80%;
     padding: 10px;
+    border-right: 2px solid rgb(25, 44, 146);
+}
+form:last-child{
+  border-right: none;
 }
 input[type=text], select {
     width: 100%;
@@ -50,6 +55,13 @@ textarea {
     align-items: center;
     border: 2px solid rgb(25, 44, 146);
     flex-direction: column;
-}
+  }
+  form{
+    border-right: none;
+    border-bottom: 2px solid rgb(25, 44, 146);;
+  }
+  form:last-child{
+    border-bottom: none;
+  }
 
 }

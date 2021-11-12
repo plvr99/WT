@@ -8,7 +8,7 @@
 </HEAD>
 <BODY>
     <div>
-        <form>
+        <form id="form1">
             <label for="odabirVjezbe">Odabir vježbe:</label>
 
             <select name="odabirVjezbe" id="odabirVjezbe">
@@ -19,7 +19,7 @@
             </select>
             <label for="odabirVjezbe">Odabir zadatka:</label>
 
-            <select name="odabirVjezbe" id="odabirVjezbe">
+            <select name="odabirVjezbe" id="odabirZadatka">
                 <option value="z1">ZADATAK 1</option>
                 <option value="z2">ZADATAK 2</option>
                 <option value="z3">ZADATAK 3</option>
@@ -27,7 +27,7 @@
             </select>
             <label for="odabirVjezbe">Odabir verzije:</label>
 
-            <select name="odabirVjezbe" id="odabirVjezbe">
+            <select name="odabirVjezbe" id="odabirVerzije">
                 <option value="ver1">VERZIJA 1</option>
                 <option value="ver2">VERZIJA 2</option>
                 <option value="ver3">VERZIJA 3</option>
@@ -35,15 +35,15 @@
             </select>
             <label for="komentar">Komentar:</label><br>
             <textarea id=komentar></textarea><br>
-            <input type="submit" value="Pošalji">
+            <input id="dugme1" type="submit" value="Pošalji">
       </form>
 
-      <form>
+      <form id="form2">
         <label for="errorsLog">Errors log:</label><br>
         <textarea id=errorsLog></textarea><br>
         <input type="checkbox" id="greska" >
         <label for="checkbox"> Bez grešaka</label>
-        <input type="submit" value="Dodaj rezultate testa">
+        <input id="dugme2" type="submit" value="Dodaj rezultate testa">
       </form>
     </div>
 </BODY>
