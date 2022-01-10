@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>Vjezbe</TITLE>
+<link rel="stylesheet" type="text/css" href="../css/vjezbe_stil.css">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="../js/VjezbeAjax.js"></script>
+<script type="text/javascript" src="../js/vjezbe.js"></script>
+<script type="text/javascript">
+   /* document.addEventListener("load", function(){
+        console.log("aaaaaa")
+        pozivDohvatiPodatke();
+});*/
+//window.onload = function(){ setTimeout( function(){ pozivDohvatiPodatke(); }, 1000); };
+document.onreadystatechange = function(){
+    console.log("complete")
+     if(document.readyState === 'complete'){
+        pozivDohvatiPodatke(); 
+     }
+}
+</script>
+</HEAD>
+<BODY>
+    <div id="okvir">
+        <div id="meni">
+            <div id = "meni_content">
+                <h2>#meni</h2>
+            </div>
+            <div id = "meni_list">
+                <ul>
+                    <li id="grupelnk"><a href="spirala1.html">Grupe</a></li>
+                    <li id="vjezbelnk"><a href="#">Vjezbe</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="odabirVjezbe">
+            
+        </div>
+        <div id="grafovi">
+            <img class="graf" src="graf.jpg" alt="Graf">
+            <img class="graf" src="graf.jpg" alt="Graf">
+            <img class="graf" src="graf.jpg" alt="Graf">
+            <img class="graf" src="graf.jpg" alt="Graf">
+        </div>
+    </div>
+</BODY>
+</HTML>
