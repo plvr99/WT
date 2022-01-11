@@ -48,7 +48,7 @@ app.get("/vjezbe", function (req, res) {
                 if(index == 0) errorMessage += greske[index];
                 else errorMessage += "," + greske[index];
             }
-            res.status(500).send({status:"error", data: errorMessage});
+            res.status(200).send({status:"error", data: errorMessage});
         }
         else{
         res.status(200).send({brojVjezbi, brojZadataka});
@@ -101,7 +101,7 @@ app.post("/unosVjezbi", function(req, res){
         htmlText +="<label for=\"z"+index+"\">"+"z"+index+"</label><br>"
         htmlText +="<input type=\"text\" id=\"z"+index+"\" name=\"z"+index+"\" value=\"4\"><br>"
     }
-    htmlText+="</form><input type=\"button\" value=\"Posalji\" onclick=\"pozivPosaljiPodatke(document.forms.forma)\">";
+    htmlText+="<input type=\"button\" value=\"Posalji\" onclick=\"pozivPosaljiPodatke(document.forms.forma)\"></form>";
     console.log(htmlText);
     //res.setHeader({'Access-Control-Allow-Origin': '*'})
     res.status(200).send(htmlText);
