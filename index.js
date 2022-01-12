@@ -11,12 +11,11 @@ app.use(express.urlencoded({ extended: true }));
 function is_numeric(str){
     return /^\d+$/.test(str);
 }
-app.get("/test.html", function(req,res){
-    res.sendFile(__dirname + "/public/html/test.html");
-});
 app.get("/vjezbe", function (req, res) {
     fs.readFile("./public/data/vjezbe.csv", function(err, data){
-        if(err) throw err;
+        if(err) {
+            res.status(404).json({status:"error", data:"Greska prilikom citanja podataka"})
+        }
         podaci = data.toString('utf8') //.split(/[\r\n]+/)[0]// POPRAVITI KASNIJE
             console.log(podaci)
         podaci = podaci.split(",");
@@ -48,10 +47,10 @@ app.get("/vjezbe", function (req, res) {
                 if(index == 0) errorMessage += greske[index];
                 else errorMessage += "," + greske[index];
             }
-            res.status(200).send({status:"error", data: errorMessage});
+            res.status(404).json({status:"error", data: errorMessage});
         }
         else{
-        res.status(200).send({brojVjezbi, brojZadataka});
+        res.status(200).json({brojVjezbi, brojZadataka});
         }
    });
 });
@@ -79,7 +78,7 @@ app.post("/vjezbe", function(req, res){
             if(index == 0) errorMessage += greske[index];
             else errorMessage += "," + greske[index];
         }
-        res.send({status:"error", data: errorMessage});
+        res.json({status:"error", data: errorMessage});
     }
     else{
         let novalinija= brojVjezbi+",";
@@ -90,7 +89,7 @@ app.post("/vjezbe", function(req, res){
         
         fs.writeFile("./public/data/vjezbe.csv", novalinija , function(err){
             if(err) throw err;
-            res.status(200).send({brojVjezbi, brojZadataka});
+            res.status(200).json({brojVjezbi, brojZadataka});
         });
     }
 });

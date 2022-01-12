@@ -102,35 +102,23 @@ describe('VjezbeAjax', function () {
     afterEach(function () {
       this.xhr.restore();
     });
-    it('server error', function (done) {
-      let data1 = { status: 500, data: "error" };
-      let dataJson = JSON.stringify(data1);
-      vjezbeAjax.dohvatiPodatke(function (err, data) {
-        //assert.equal(err, "error", 'Desio se neki error!');
-        assert.deepEqual(data, null);
+    it("metoda ispravno vraca vjezbe", function (done) {
+      var data = {brojVjezbi: 3,brojZadataka: [1, 2, 3]};
+      var dataJson = JSON.stringify(data);
+      vjezbeAjax.dohvatiPodatke((err, podaci) => {
+        podaci.should.deep.equal(data);
         done();
       });
-      this.requests[0].respond(500, { 'Content-Type': 'text/json' }, dataJson);
+      this.requests[0].respond(200, { "Content-Type": "text/json" }, dataJson);
     });
-    it('Pogresni podaci iz fajla', function (done) {
-      let data = { "brojVjezbi": -1, "brojZadataka": [] }
-      let dataJson = JSON.stringify(data);
-      vjezbeAjax.dohvatiPodatke(function (err, data) {
-        assert.equal(err, "Pogrešan parametar brojVjezbi,brojZadataka", 'Pogresni podaci!');
-        assert.deepEqual(data, null);
-        done();
+    it("dolazi do greske prilikom citanja podataka", function () {
+      var data = {status:"error", data:"Greska prilikom citanja podataka"};
+      var dataJson = JSON.stringify(data);
+      vjezbeAjax.dohvatiPodatke((err, dat) => {
+        err.should.deep.equal(data);
+        //done();
       });
-      this.requests[0].respond(200, { 'Content-Type': 'text/json' }, dataJson);
-    });
-    it('Pogresni podaci iz fajla 2', function (done) {
-      let data = { "brojVjezbi": 20, "brojZadataka": [] }
-      let dataJson = JSON.stringify(data);
-      vjezbeAjax.dohvatiPodatke(function (err, data) {
-        assert.equal(err, "Pogrešan parametar brojVjezbi,brojZadataka", 'Pogresni podaci!');
-        assert.deepEqual(data, null);
-        done();
-      });
-      this.requests[0].respond(200, { 'Content-Type': 'text/json' }, dataJson);
+      this.requests[0].respond(404, { "Content-Type": "text/json" }, dataJson);
     });
   });
   describe('iscrtajVjezbe()', function () {
