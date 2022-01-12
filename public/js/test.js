@@ -130,7 +130,7 @@ describe('VjezbeAjax', function () {
 
       let brojPolja = div.children.length;
       div.innerHTML = '';
-      assert.equal(2, brojPolja, 'Broj vjezbi na formi nije 2!');
+      assert.equal(2, brojPolja, 'Broj vjezbi na formi je 2!');
     });
 
   });
