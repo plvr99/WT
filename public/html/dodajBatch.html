@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<HTML>
+
+<HEAD>
+    <TITLE>Dodavanje vise studenata</TITLE>
+    <link rel="stylesheet" type="text/css" href="../css/unosVjezbi.css">
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../js/StudentAjax.js"></script>
+    <script src="../js/unosStudenta.js"></script>
+</HEAD>
+
+<BODY>
+    <div id="info">
+        <p>Studente unositi u CSV formatu:</p>
+        <p>ime,prezime,indeks,grupa</p>
+        <p>(napomena: nijedno od navedenih atributa ne smije biti prazno, indeks treba biti broj</p>
+    </div>
+    <label for="studenti">Studenti za unos:</label><br>
+    <div id="ajaxstatus"></div>
+    <div>
+        <form>
+            <textarea id="studenti" name="studenti" rows="20" cols="80"></textarea>
+            <input type="button" value="Posalji" onclick="posaljiBatchStudent(document.getElementById('studenti'))">
+        </form>
+    </div>
+</BODY>
+
+</HTML>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>Dodavanje studenta</TITLE>
+<link rel="stylesheet" type="text/css" href="../css/unosVjezbi.css">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../js/StudentAjax.js"></script>
+<script src="../js/unosStudenta.js"></script>
+</HEAD>
+<BODY>
+    <div id="ajaxstatus"></div>
+    <div>
+        <form id="studentForm">
+            <label for="ime">Ime:</label><br>
+            <input type="text" id="ime" name="ime"><br>
+            <label for="prezime">Prezime:</label><br>
+            <input type="text" id="prezime" name="prezime"><br>
+            <label for="index">Indeks:</label><br>
+            <input type="text" id="index" name="index"><br>
+            <label for="grupa">Naziv grupe:</label><br>
+            <input type="text" id="grupa" name="grupa"><br>
+            <input type="button" value="Posalji" onclick='dodavanjeStudenta(document.forms.studentForm)'></form>
+        </form>
+    </div>
+</BODY>
+</HTML>

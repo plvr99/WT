@@ -14,7 +14,10 @@ form{
     padding: 10px;
     /*border-right: 2px solid rgb(25, 44, 146);*/
 }
-
+#info{
+  display: flex;
+  flex-direction: column;
+}
 input[type=text], select {
     width: 100%;
     padding: 12px 20px;
