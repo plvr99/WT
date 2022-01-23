@@ -11,12 +11,11 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 let assert = chai.assert;
-//mocha.setup('bdd')
+mocha.setup('bdd')
 /*mocha.checkLeaks();
 mocha.run();
 */
 chai.should();
-//console.log(server);
 describe("Test get /vjezbe", function () {
     this.beforeEach(function (done) {
         db.sequelize.sync({ force: true }).then(function () {
@@ -28,7 +27,7 @@ describe("Test get /vjezbe", function () {
             done();
         });
     })
-    it('prazna baza', function (done) {
+    it('prazna baza, dodavanje studenta', function (done) {
         chai.request(server).post('/student')
             .set('content-type', 'application/json')
             .send({ ime: "test", prezime: "test", index: "12345", grupa: "TestGrupa" })

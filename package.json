@@ -1,12 +1,29 @@
 {
+  "name": "wt21p18757",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://plvr99@bitbucket.org/plvr99/wt21p18757.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/plvr99/wt21p18757/issues"
+  },
+  "homepage": "https://bitbucket.org/plvr99/wt21p18757#readme",
   "dependencies": {
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "express": "^4.17.2",
-    "mocha": "^8.4.0",
+    "mocha": "^9.1.4",
     "mysql2": "^2.3.3",
     "pug": "^3.0.2",
-    "sequelize": "^6.13.0",
+    "sequelize": "^6.14.0",
     "sinon": "^12.0.1"
   }
 }
