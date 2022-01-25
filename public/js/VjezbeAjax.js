@@ -19,7 +19,6 @@ let vjezbeAjax = (function () {
         ajax.open("POST", "http://localhost:3000/vjezbe", true);
         ajax.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(ajax.responseText);
                 let response = JSON.parse(ajax.responseText)
                 let err = response.data;
                 let data = null;
@@ -29,11 +28,9 @@ let vjezbeAjax = (function () {
         }
         var formData = new FormData(vjezbeObjekat);
         let brojZadataka = []
-        console.log(formData.values)
         for (var pair of formData.entries()) {
             brojZadataka.push(pair[1]);
         }
-        console.log("brojVjezbi " + brojZadataka.length + " broj zadataka " + brojZadataka)
         ajax.setRequestHeader("Content-Type", "application/json");
         ajax.send(JSON.stringify({ brojVjezbi: brojZadataka.length, brojZadataka }));
     }

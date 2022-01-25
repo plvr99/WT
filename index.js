@@ -17,10 +17,10 @@ function is_numeric(str) {
     return /^\d+$/.test(str);
 }
 function isBlank(str) {
-    return (!str || /^\s*$/.test(str));
+    //return (!str || /^\s*$/.test(str));
+    return /^\s*$/.test(str);
 }
 
-//ispraviti
 function dohvatiVjezbeIzadatkeIzBaze() {
     let brojVjezbi = 0;
     let brojZadataka = [];
@@ -47,52 +47,11 @@ function dohvatiVjezbeIzadatkeIzBaze() {
 }
 
 app.get("/vjezbe", function (req, res) {
-    /*fs.readFile("./public/data/vjezbe.csv", function (err, data) {
-        if (err) {
-            res.status(404).json({ status: "error", data: "Greska prilikom citanja podataka" })
-        }
-        podaci = data.toString('utf8') //.split(/[\r\n]+/)[0]// POPRAVITI KASNIJE
-        console.log(podaci)
-        podaci = podaci.split(",");
-        console.log(podaci);
-
-        let brojVjezbi = podaci[0];
-        let brojZadataka = [];
-        console.log(brojVjezbi)
-        for (let index = 1; index < podaci.length; index++) {
-            brojZadataka.push(podaci[index]);
-        }
-
-        let greske = []
-        if (brojVjezbi > 14 || brojVjezbi < 1) greske.push("brojVjezbi");
-        for (let index = 0; index < brojZadataka.length; index++) {
-            if (!is_numeric(brojZadataka[index])) {
-                greske.push("z" + index);
-                continue;
-            }
-            if (brojZadataka[index] < 0 || brojZadataka[index] > 9) greske.push("z" + index);
-        }
-        if (brojZadataka.length != brojVjezbi) greske.push("brojZadataka");
-        console.log(greske);
-        console.log("array " + greske.length);
-        if (greske.length != 0) {
-            let errorMessage = "Pogrešan parametar ";
-
-            for (let index = 0; index < greske.length; index++) {
-                if (index == 0) errorMessage += greske[index];
-                else errorMessage += "," + greske[index];
-            }
-            res.status(404).json({ status: "error", data: errorMessage });
-        }
-        else {
-            res.status(200).json({ brojVjezbi, brojZadataka });
-        }
-    });*/
     dohvatiVjezbeIzadatkeIzBaze().then((rezultat) => {
         res.status(200).json({ brojVjezbi: rezultat.brojVjezbi, brojZadataka: rezultat.brojZadataka });
     })
 });
-//ispraviti
+
 function napraviVjezbe(brojVjezbi, brojZadataka) {
     return new Promise(resolve => {
         let vjezbe = [];
@@ -121,7 +80,6 @@ function napraviVjezbe(brojVjezbi, brojZadataka) {
 
 }
 app.post("/vjezbe", function (req, res) {
-    console.log(req.body);
     let brojVjezbi = req.body['brojVjezbi'];
     let brojZadataka = req.body['brojZadataka'];
 
@@ -135,8 +93,6 @@ app.post("/vjezbe", function (req, res) {
         if (brojZadataka[index] < 0 || brojZadataka[index] > 9) greske.push("z" + index);
     }
     if (brojZadataka.length != brojVjezbi) greske.push("brojZadataka");
-    console.log(greske);
-    console.log("array " + greske.length);
     if (greske.length != 0) {
         let errorMessage = "Pogrešan parametar ";
 
@@ -155,11 +111,6 @@ app.post("/vjezbe", function (req, res) {
         napraviVjezbe(brojVjezbi, brojZadataka).then(() => {
             res.status(200).json({ brojVjezbi, brojZadataka });
         })
-        /*fs.writeFile("./public/data/vjezbe.csv", novalinija, function (err) {
-            if (err) throw err;
-            res.status(200).json({ brojVjezbi, brojZadataka });
-        });*/
-
     }
 });
 app.post("/unosVjezbi", function (req, res) {
@@ -170,7 +121,6 @@ app.post("/unosVjezbi", function (req, res) {
         htmlText += "<input type=\"text\" id=\"z" + index + "\" name=\"z" + index + "\" value=\"4\"><br>"
     }
     htmlText += "<input type=\"button\" value=\"Posalji\" onclick=\"pozivPosaljiPodatke(document.forms.forma)\"></form>";
-    console.log(htmlText);
     //res.setHeader({'Access-Control-Allow-Origin': '*'})
     res.status(200).send(htmlText);
 });
@@ -183,7 +133,6 @@ function kreiranjeStudenta(noviStudent) {
                 index: noviStudent.index
             }
         }).then((student) => {
-            console.log(student[0])
             if (student[0]) {
                 reject({ status: "Student sa indexom " + student[0].index + " već postoji!" })
             }
@@ -216,23 +165,6 @@ app.post("/student", function (req, res) {
 });
 function promjenaGrupeStudenta(index, grupa) {
     return new Promise((resolve, reject) => {
-        /*db.grupa.findOrCreate({
-            where: {
-                nazivGrupe: grupa,
-            }
-        }).then((grupa) => {
-            grupa = grupa[0];
-            db.student.findAll({ where: { index: index } }).then((student) => {
-                student = student[0];
-                if (!student) {
-                    reject({ status: "Student sa indexom " + index + " ne postoji" });
-                }
-                grupa.removeStudentiGrupe(student).then(() => {
-                    grupa.addStudentiGrupe(student).then(() => resolve({ status: "Promjenjena grupa studentu " + index }))
-                })
-            })
-        })
-    });*/
         db.student.findAll({ where: { index: index } }).then((student) => {
             student = student[0];
             if (!student) {
@@ -255,12 +187,10 @@ function promjenaGrupeStudenta(index, grupa) {
 app.put("/student/:index", function (req, res) {
     var index = req.params.index;
     let grupa = req.body.grupa;
-    console.log("aaa" + index + " " + grupa);
     function handlePromijenjen(message) {
         res.status(200).json(message);
     }
     function handleNijePromijenjen(message) {
-        console.log(message);
         res.status(404).json(message)
     }
     promjenaGrupeStudenta(index, grupa).then(handlePromijenjen, handleNijePromijenjen);
@@ -272,7 +202,7 @@ function obradaCSVTexta(csvText) {
     for (let i = 0; i < studentiTextArray.length; i++) {
         let studentText = studentiTextArray[i].split(",");
         if (studentText.length != 4) continue; //preskacemo podatak ako nema svih polja
-        if (isBlank(studentText[0] || isBlank(studentText[1] || !is_numeric(studentText[2] || isBlank(studentText[3]))))) continue;
+        if (isBlank(studentText[0]) || isBlank(studentText[1]) || !is_numeric(studentText[2]) || isBlank(studentText[3])) continue;
         ispravniStudenti.push({ ime: studentText[0], prezime: studentText[1], index: studentText[2], grupa: studentText[3] });
     }
     return ispravniStudenti;
@@ -288,18 +218,15 @@ app.post("/batch/student", function (req, res) {
     function handleNijeKreiran(message) {
         //message je poruka sa brojem indeksa 
         let matches = message.status.match(/\d+/g);
-        console.log("match " + matches);
         failedStudentiIndex.push(matches);
     }
     let csv = req.body.csv;
     studenti = obradaCSVTexta(csv);
-    console.log(studenti);
+    
     for (let i = 0; i < studenti.length; i++) {
         listaPromisa.push(kreiranjeStudenta(studenti[i]).then(handleKreiran, handleNijeKreiran));
     }
     Promise.all(listaPromisa).then(() => {
-        console.log(brojKreiranihStudenata)
-        console.log(failedStudentiIndex)
         let statusMessage = "Dodano " + brojKreiranihStudenata + " studenata";
         if (failedStudentiIndex.length != 0) {
             statusMessage += ", a studenti {" + failedStudentiIndex[0];

@@ -5,7 +5,7 @@ let studentAjax = (function (){
         ajax.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let response = JSON.parse(ajax.responseText)
-                console.log("response; " + ajax.responseText)
+              
                 if(response.status != "Kreiran student!") fnCallback(response.status, null);
                 else fnCallback(null, response.status);
                 
@@ -37,7 +37,7 @@ let studentAjax = (function (){
         ajax.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let response = JSON.parse(ajax.responseText)
-                console.log("response; " + response.status)
+                
                 fnCallback(null, response.status);
                 
             }

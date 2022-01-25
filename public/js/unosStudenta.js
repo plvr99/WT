@@ -1,12 +1,9 @@
 function dodavanjeStudenta(forma) {
-    console.log(forma);
     var student = {}
     var formData = new FormData(forma);
-    console.log(formData.values)
     for (var pair of formData.entries()) {
         student[pair[0]] = pair[1];
     }
-    console.log(student);
     studentAjax.dodajStudenta(student, function(err,data){
         let ajaxstatus = document.getElementById('ajaxstatus');
         ajaxstatus.innerHTML=''
