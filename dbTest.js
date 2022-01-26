@@ -123,11 +123,11 @@ describe("Test POST /batch/student", function () {
             })
         });
     })
-    /* this.afterAll(function () {
+    this.afterAll(function () {
          db.sequelize.sync({ force: true }).then(function () {
              done();
          });
-     })*/
+     })
     it('Dodavanje samo jednog studenta', function (done) {
         chai.request(server).post("/batch/student").set('content-type', 'application/json')
             .send({ csv: "mujo,mujic,11223,grupa" })
