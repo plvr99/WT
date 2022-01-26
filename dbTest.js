@@ -123,11 +123,11 @@ describe("Test POST /batch/student", function () {
             })
         });
     })
-   /* this.afterAll(function () {
-        db.sequelize.sync({ force: true }).then(function () {
-            done();
-        });
-    })*/
+    /* this.afterAll(function () {
+         db.sequelize.sync({ force: true }).then(function () {
+             done();
+         });
+     })*/
     it('Dodavanje samo jednog studenta', function (done) {
         chai.request(server).post("/batch/student").set('content-type', 'application/json')
             .send({ csv: "mujo,mujic,11223,grupa" })
@@ -159,7 +159,7 @@ describe("Test POST /batch/student", function () {
                 })
             })
     })
-    it('Preskakivanje nevalidnog reda u csv textu', function(done){
+    it('Preskakivanje nevalidnog reda u csv textu', function (done) {
         chai.request(server).post("/batch/student").set('content-type', 'application/json')
             .send({ csv: "ispravan,red,12121,grupaB\nneispravan,,indeks ne bi trebao imati slova,grupaB" })
             .end(function (err, res) {
@@ -169,6 +169,26 @@ describe("Test POST /batch/student", function () {
                 }).then(() => {
                     done();
                 })
+            })
+    })
+    it('Dodavanje studenta sa istim indexom', function (done) {
+        chai.request(server).post("/batch/student").set('content-type', 'application/json')
+            .send({ csv: "a,a,11,grupaA\na,a,11,grupaA" })
+            .end(function (err, res) {
+                res.should.have.status(200);
+                res.body.status.should.eql("Dodano 1 studenata, a studenti {11} već postoje!");
+                done();
+            })
+    })
+    it('Dodavanje studenta sa istim indexom a razlicitom grupom nece napraviti novu grupu', function (done) {
+        chai.request(server).post("/batch/student").set('content-type', 'application/json')
+            .send({ csv: "a,a,12,grupaA\na,a,12,najnovijaGrupa" })
+            .end(function (err, res) {
+                db.grupa.findAll({ where: { nazivGrupe: "najnovijaGrupa" } }).then((pronadjena) => {
+                    pronadjena.should.have.lengthOf(0);
+                    res.should.have.status(200);
+                    res.body.status.should.eql("Dodano 1 studenata, a studenti {12} već postoje!");
+                }).then(()=>done());
             })
     })
 })

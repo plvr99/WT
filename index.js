@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express();
 const db = require('./db.js');
+const { student } = require('./db.js');
 db.sequelize.sync({ force: true }).then(function () {
     console.log("Inicijalizacija baze zavrsena!");
     //process.exit();
@@ -198,16 +199,43 @@ app.put("/student/:index", function (req, res) {
 });
 function obradaCSVTexta(csvText) {
     let ispravniStudenti = [];
+    let ponavljajuciIndexi = [];
+    function ponavljanjeIndexaCheck(index) {
+        let found = ispravniStudenti.find(s => s.index == index);
+        if (found) {
+            ponavljajuciIndexi.push(index);
+            return true;
+        }
+        return false;
+    }
     let studentiTextArray = csvText.split(/[\r\n]+/);
     for (let i = 0; i < studentiTextArray.length; i++) {
         let studentText = studentiTextArray[i].split(",");
         if (studentText.length != 4) continue; //preskacemo podatak ako nema svih polja
         if (isBlank(studentText[0]) || isBlank(studentText[1]) || !is_numeric(studentText[2]) || isBlank(studentText[3])) continue;
+        if (ponavljanjeIndexaCheck(studentText[2])) continue;
         ispravniStudenti.push({ ime: studentText[0], prezime: studentText[1], index: studentText[2], grupa: studentText[3] });
     }
-    return ispravniStudenti;
+    return { ispravniStudenti, ponavljajuciIndexi };
 }
-
+function serial(studenti) {
+    function handleKreiran(message) {
+        brojKreiranihStudenata++;
+    }
+    function handleNijeKreiran(message) {
+        //message je poruka sa brojem indeksa 
+        let matches = message.status.match(/\d+/g);
+        failedStudentiIndex.push(matches);
+    }
+    return new Promise((resolve, reject) => {
+        var sequence = Promise.resolve();
+        studenti.forEach(student => {
+            sequence = sequence.then(() => {
+                kreiranjeStudenta(student).then(handleKreiran, handleNijeKreiran);
+            })
+        });
+    });
+}
 app.post("/batch/student", function (req, res) {
     let brojKreiranihStudenata = 0;
     let failedStudentiIndex = [];
@@ -221,11 +249,41 @@ app.post("/batch/student", function (req, res) {
         failedStudentiIndex.push(matches);
     }
     let csv = req.body.csv;
-    studenti = obradaCSVTexta(csv);
-    
+    let obj = obradaCSVTexta(csv);
+    let studenti = obj.ispravniStudenti;
+    let ponavljajuci = obj.ponavljajuciIndexi;
     for (let i = 0; i < studenti.length; i++) {
         listaPromisa.push(kreiranjeStudenta(studenti[i]).then(handleKreiran, handleNijeKreiran));
     }
+
+    listaPromisa.reduce((promise, task) => promise.then(() => task)).then(() => {
+        let statusMessage = "Dodano " + brojKreiranihStudenata + " studenata";
+        failedStudentiIndex = failedStudentiIndex.concat(ponavljajuci);
+        if (failedStudentiIndex.length != 0) {
+            statusMessage += ", a studenti {" + failedStudentiIndex[0];
+            for (let i = 1; i < failedStudentiIndex.length; i++) {
+                statusMessage += "," + failedStudentiIndex[i];
+            }
+            statusMessage += "} već postoje";
+        }
+        statusMessage += "!";
+        res.status(200).json({ status: statusMessage });
+    })
+
+    /*
+        serial(listaPromisa).then(() => {
+            let statusMessage = "Dodano " + brojKreiranihStudenata + " studenata";
+            if (failedStudentiIndex.length != 0) {
+                statusMessage += ", a studenti {" + failedStudentiIndex[0];
+                for (let i = 1; i < failedStudentiIndex.length; i++) {
+                    statusMessage += "," + failedStudentiIndex[i];
+                }
+                statusMessage += "} već postoje";
+            }
+            statusMessage += "!";
+            res.status(200).json({ status: statusMessage });
+        })*/
+    /*
     Promise.all(listaPromisa).then(() => {
         let statusMessage = "Dodano " + brojKreiranihStudenata + " studenata";
         if (failedStudentiIndex.length != 0) {
@@ -238,6 +296,7 @@ app.post("/batch/student", function (req, res) {
         statusMessage += "!";
         res.status(200).json({ status: statusMessage });
     })
+    */
     //res.status(200).json({status:"Dodano " + kreiraniStudenti +"studenata"});
 });
 
